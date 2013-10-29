@@ -1,4 +1,4 @@
-function [prec,rec, mAp, mRec] = evalRetrieval( wPred, wTrue )
+function [prec,rec, mAp, mRec, mAp_ret,mRec_ret] = evalRetrieval( wPred, wTrue )
 %
 % [prec,rec] = evalRetrieval( wPred, wTrue )
 % 
@@ -25,13 +25,18 @@ function [prec,rec, mAp, mRec] = evalRetrieval( wPred, wTrue )
 %
 % Modified by Xing Xu, xing.xu@ieee.org
 %
+intersect = wPred.*wTrue;
+fprintf('non_zero elements: %d \n', length(find(intersect ~= 0)));
 
-hit  = sum(wPred.*wTrue,1);
+hit  = sum(intersect,1);
 pred = sum(wPred,1);
 true = sum(wTrue,1);
 
 prec = hit ./ (pred+eps);
 rec  = hit ./ (true+eps);
 
-mAp = mean(prec(prec > 0));
-mRec = mean(rec(rec > 0));
+mAp = mean(prec);
+mRec = mean(rec);
+
+mAp_ret = mean(prec(prec > 0));
+mRec_ret = mean(rec(rec > 0));

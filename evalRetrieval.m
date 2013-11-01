@@ -1,7 +1,7 @@
-function [prec,rec, mAp, mRec, mAp_ret,mRec_ret] = evalRetrieval( wPred, wTrue )
+function [results] = evalRetrieval( wPred, wTrue )
 %
-% [prec,rec] = evalRetrieval( wPred, wTrue )
-% 
+% [results] = evalRetrieval( wPred, wTrue )
+% 	results include: prec,rec, mAp, mRec, mAp_ret,mRec_ret
 % Precision and recall scores for image annotation problem.
 % Input:
 %   wPred:   a Ndict x Nsample matrix of predicted indicators.
@@ -40,3 +40,14 @@ mRec = mean(rec);
 
 mAp_ret = mean(prec(prec > 0));
 mRec_ret = mean(rec(rec > 0));
+
+N_plus = length(find(sum(wPred,1) ~= 0));
+
+%return evaluation results
+results.prec = prec;
+results.rec = rec;
+results.mAp = mAp;
+results.mRec = mRec;
+results.mAp_ret = mAp_ret;
+results.mRec_ret = mRec_ret;
+results.N_plus = N_plus;

@@ -1,6 +1,7 @@
-function [prec, rec, f1, retrieved, f1Ind, precInd, recInd]= evaluatePR(GTs, PREDs, topK)
+function [results]= evaluatePR(GTs, PREDs, topK)
 %
-% Usage: [prec, rec, f1, retrieved, f1Ind, precInd, recInd]= evaluatePR(GTs, PREDs, topK)
+% Usage: [results]= evaluatePR(GTs, PREDs, topK)
+%   results includes: prec, rec, f1, retrieved, f1Ind, precInd, recInd
 % Input:
 %	GTs: K x n matrix containing the groundtruth (0, 1)
 %	PREDs: K x n matrix containing the prediction confidence (real values)
@@ -30,3 +31,12 @@ f1 = 2*prec*rec/(prec+rec);
 
 retrievedInd = sum(hardPREDs.*GTs, 2)>0;
 retrieved = sum(retrievedInd>0);
+
+% return evaluation result
+results.prec = prec;
+results.rec = rec;
+results.f1 = f1;
+results.retrieved = retrieved;
+results.f1Ind = f1Ind;
+results.precInd = precInd;
+results.recInd = recInd;
